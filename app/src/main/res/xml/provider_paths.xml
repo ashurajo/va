@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--"."表示所有路径-->
+    <external-path name="external_files" path="."/>
+    <!--填写自己的包名-->
+    <external-path path="Android/data/io.virtualapp/" name="share_files_path" />
+    <external-path path="." name="root_path" />
+</paths>
+

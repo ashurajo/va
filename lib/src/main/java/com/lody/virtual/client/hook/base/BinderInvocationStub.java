@@ -80,7 +80,7 @@ public class BinderInvocationStub extends MethodInvocationStub<IInterface> imple
         }
 
         @Override
-        public Object call(Object who, Method method, Object... args) {
+        public Object call(Object who, Method method, Object... args) throws Throwable {
             return BinderInvocationStub.this;
         }
     }

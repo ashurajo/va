@@ -26,7 +26,7 @@ import jonathanfinerty.once.Once;
 public class App extends Application {
 
     private static App gApp;
-
+    public static  boolean  toMain = true;
     private SettingConfig mConfig = new SettingConfig() {
         @Override
         public String getHostPackageName() {
@@ -125,6 +125,5 @@ public class App extends Application {
 //
 
     }
-
 
 }

@@ -40,7 +40,7 @@ public class WindowSessionPatch extends MethodInvocationProxy<MethodInvocationSt
 
 
 	@Override
-	public void inject() {
+	public void inject() throws Throwable {
 		// <EMPTY>
 	}
 

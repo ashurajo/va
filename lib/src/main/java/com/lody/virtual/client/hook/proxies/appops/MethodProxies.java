@@ -60,7 +60,7 @@ public class MethodProxies {
     }
 
 
-    public static Object noteProxyOperation(Object who, Method method, Object[] args) {
+    public static Object noteProxyOperation(Object who, Method method, Object[] args) throws Throwable {
         return 0;
     }
 

@@ -33,7 +33,16 @@ android {
             keyPassword "va123456"
         }
     }
- 
+
+        flavorDimensions "test_demo"
+        productFlavors{
+            pro {
+                dimension "test_demo"
+                applicationId rootProject.ext.PACKAGE_NAME_32BIT
+                manifestPlaceholders = [label:rootProject.ext.LABEL,app_icon :rootProject.ext.APP_ICON]
+            }
+        }
+
     buildTypes {
         debug {
             debuggable false
@@ -47,7 +56,6 @@ android {
             signingConfig signingConfigs.booster
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

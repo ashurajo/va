@@ -6,5 +6,5 @@ import android.app.ActivityManager;
 import android.os.Build;
 
 public interface TaskDescriptionDelegate {
-    ActivityManager.TaskDescription getTaskDescription(ActivityManager.TaskDescription oldTaskDescription);
+    public ActivityManager.TaskDescription getTaskDescription(ActivityManager.TaskDescription oldTaskDescription);
 }

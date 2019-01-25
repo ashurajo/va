@@ -16,9 +16,9 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LogInvocation {
-    Condition value() default Condition.ALWAYS;
+    public Condition value() default Condition.ALWAYS;
 
-    enum Condition {
+    static enum Condition {
         /** Never logs anything */
         NEVER {
             public int getLogLevel(boolean isHooked, boolean isError) {
@@ -55,5 +55,5 @@ public @interface LogInvocation {
         };
 
         public abstract int getLogLevel(boolean isHooked, boolean isError);
-    }
-}
+    };
+};

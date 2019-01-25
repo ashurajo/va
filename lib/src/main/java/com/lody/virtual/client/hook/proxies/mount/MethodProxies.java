@@ -34,7 +34,7 @@ class MethodProxies {
         }
 
         @Override
-        public Object afterCall(Object who, Method method, Object[] args, Object result) {
+        public Object afterCall(Object who, Method method, Object[] args, Object result) throws Throwable {
             return result;
         }
     }

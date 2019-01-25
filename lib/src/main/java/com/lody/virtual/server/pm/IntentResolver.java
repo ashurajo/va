@@ -149,7 +149,9 @@ public abstract class IntentResolver<F extends VPackage.IntentInfo, R extends Ob
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			s1 = f1.countDataSchemeSpecificParts();
 			s2 = f2.countDataSchemeSpecificParts();
-            return s1 == s2;
+			if (s1 != s2) {
+				return false;
+			}
 		}
 		return true;
 	}

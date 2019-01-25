@@ -178,17 +178,17 @@ public class FastXmlSerializer implements XmlSerializer {
         return this;
     }
 
-    public void cdsect(String text) throws IllegalArgumentException,
+    public void cdsect(String text) throws IOException, IllegalArgumentException,
             IllegalStateException {
         throw new UnsupportedOperationException();
     }
 
-    public void comment(String text) throws IllegalArgumentException,
+    public void comment(String text) throws IOException, IllegalArgumentException,
             IllegalStateException {
         throw new UnsupportedOperationException();
     }
 
-    public void docdecl(String text) throws IllegalArgumentException,
+    public void docdecl(String text) throws IOException, IllegalArgumentException,
             IllegalStateException {
         throw new UnsupportedOperationException();
     }
@@ -219,7 +219,7 @@ public class FastXmlSerializer implements XmlSerializer {
         return this;
     }
 
-    public void entityRef(String text) throws IllegalArgumentException,
+    public void entityRef(String text) throws IOException, IllegalArgumentException,
             IllegalStateException {
         throw new UnsupportedOperationException();
     }
@@ -284,12 +284,12 @@ public class FastXmlSerializer implements XmlSerializer {
         throw new UnsupportedOperationException();
     }
 
-    public void ignorableWhitespace(String text) throws IllegalArgumentException,
+    public void ignorableWhitespace(String text) throws IOException, IllegalArgumentException,
             IllegalStateException {
         throw new UnsupportedOperationException();
     }
 
-    public void processingInstruction(String text) throws IllegalArgumentException,
+    public void processingInstruction(String text) throws IOException, IllegalArgumentException,
             IllegalStateException {
         throw new UnsupportedOperationException();
     }
@@ -319,12 +319,12 @@ public class FastXmlSerializer implements XmlSerializer {
         mOutputStream = os;
     }
 
-    public void setOutput(Writer writer) throws IllegalArgumentException,
+    public void setOutput(Writer writer) throws IOException, IllegalArgumentException,
             IllegalStateException {
         mWriter = writer;
     }
 
-    public void setPrefix(String prefix, String namespace) throws
+    public void setPrefix(String prefix, String namespace) throws IOException,
             IllegalArgumentException, IllegalStateException {
         throw new UnsupportedOperationException();
     }

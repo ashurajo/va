@@ -19,6 +19,7 @@ public class ChinaIpMaskManager {
         for (int i = 0; i < MaskDict.size(); i++) {
             int mask = MaskDict.keyAt(i);
             int networkIP = ip & mask;
+            //shezhi
             int mask2 = ChinaIpMaskDict.get(networkIP);
             if (mask2 == mask) {
                 found = true;

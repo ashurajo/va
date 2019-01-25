@@ -160,7 +160,7 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
         }
         try {
             resolveStageDir();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         validateInstallLocked();
@@ -206,7 +206,7 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
     }
 
     @Override
-    public void setClientProgress(float progress) {
+    public void setClientProgress(float progress) throws RemoteException {
         synchronized (mLock) {
             // Always publish first staging movement
             final boolean forcePublish = (mClientProgress == 0);
@@ -239,11 +239,11 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
     }
 
     @Override
-    public String[] getNames() {
+    public String[] getNames() throws RemoteException {
         assertPreparedAndNotSealed("getNames");
         try {
             return resolveStageDir().list();
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new IllegalStateException(e);
         }
     }
@@ -253,7 +253,7 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
      * might point at an ASEC mount point, which is why we delay path resolution
      * until someone actively works with the session.
      */
-    private File resolveStageDir() {
+    private File resolveStageDir() throws IOException {
         synchronized (mLock) {
             if (mResolvedStageDir == null && stageDir != null) {
                 mResolvedStageDir = stageDir;
@@ -266,7 +266,7 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
     }
 
     @Override
-    public ParcelFileDescriptor openWrite(String name, long offsetBytes, long lengthBytes) {
+    public ParcelFileDescriptor openWrite(String name, long offsetBytes, long lengthBytes) throws RemoteException {
         try {
             return openWriteInternal(name, offsetBytes, lengthBytes);
         } catch (IOException e) {
@@ -322,7 +322,7 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
     }
 
     @Override
-    public ParcelFileDescriptor openRead(String name) {
+    public ParcelFileDescriptor openRead(String name) throws RemoteException {
         try {
             return openReadInternal(name);
         } catch (IOException e) {
@@ -348,7 +348,7 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
     }
 
     @Override
-    public void removeSplit(String splitName) {
+    public void removeSplit(String splitName) throws RemoteException {
         if (TextUtils.isEmpty(params.appPackageName)) {
             throw new IllegalStateException("Must specify package name to remove a split");
         }
@@ -374,7 +374,7 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
     }
 
     @Override
-    public void close() {
+    public void close() throws RemoteException {
         if (mActiveCount.decrementAndGet() == 0) {
             mCallback.onSessionActiveChanged(this, false);
         }
@@ -386,7 +386,7 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
     }
 
     @Override
-    public void commit(IntentSender statusReceiver) {
+    public void commit(IntentSender statusReceiver) throws RemoteException {
         final boolean wasSealed;
         synchronized (mLock) {
             wasSealed = mSealed;
@@ -423,7 +423,7 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
     }
 
     @Override
-    public void abandon() {
+    public void abandon() throws RemoteException {
         destroyInternal();
         dispatchSessionFinished(INSTALL_FAILED_ABORTED, "Session was abandoned", null);
     }
@@ -475,7 +475,7 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
         }
     }
 
-    public void open() {
+    public void open() throws IOException {
         if (mActiveCount.getAndIncrement() == 0) {
             mCallback.onSessionActiveChanged(this, true);
         }

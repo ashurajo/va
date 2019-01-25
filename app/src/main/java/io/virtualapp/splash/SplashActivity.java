@@ -5,6 +5,7 @@ import android.accessibilityservice.AccessibilityService;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -27,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import io.virtualapp.App;
 import io.virtualapp.R;
 import io.virtualapp.VCommends;
 import io.virtualapp.abs.ui.VActivity;
@@ -72,7 +74,7 @@ public class SplashActivity extends VActivity {
                 VUiKit.sleep(delta);
             }
         }).done((res) -> {
-            HomeActivityMain.goHome(this);
+            goHome(this);
             finish();
             overridePendingTransition(0, 0);
         });
@@ -89,7 +91,7 @@ public class SplashActivity extends VActivity {
              //                    //Log.e("liuheng2","2"+getAppCopystatue());
              //                }
              // Permission Granted准许
-                Toast.makeText(this,"已获得授权！",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"ok！",Toast.LENGTH_SHORT).show();
                 VUiKit.defer().when(() -> {
                     long time = System.currentTimeMillis();
                     doActionInThread();
@@ -99,7 +101,7 @@ public class SplashActivity extends VActivity {
                         VUiKit.sleep(delta);
                     }
                 }).done((res) -> {
-                    HomeActivityMain.goHome(this);
+                    goHome(this);
                     finish();
 
                     overridePendingTransition(0, 0);
@@ -121,50 +123,11 @@ public class SplashActivity extends VActivity {
     public void onBackPressed() {
 
     }
-
-
-    public  Uri copyAssetsFile(Context context, String fileName, String path) {
-        try {
-            InputStream mInputStream = context.getAssets().open(fileName);
-            File file = new File(path);
-            if (!file.exists()) {
-                file.mkdir();
-            }
-            File mFile = new File(path + File.separator + "YouTube.apk");
-            if(!mFile.exists())
-                mFile.createNewFile();
-            Log.e(TAG,"开始拷贝");
-            FileOutputStream mFileOutputStream = new FileOutputStream(mFile);
-            byte[] mbyte = new byte[1024];
-            int i = 0;
-            while((i = mInputStream.read(mbyte)) > 0){
-                mFileOutputStream.write(mbyte, 0, i);
-            }
-            mInputStream.close();
-            mFileOutputStream.close();
-            Uri uri = null;
-            try{
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-                    //包名.fileprovider
-                    uri = FileProvider.getUriForFile(context, "com.example.app.fileprovider", mFile);
-                }else{
-                    uri = Uri.fromFile(mFile);
-                }
-            }catch (ActivityNotFoundException anfe){
-                Log.e(TAG,anfe.getMessage());
-            }
-            MediaScannerConnection.scanFile(context, new String[]{mFile.getAbsolutePath()}, null, null);
-            Log.e(TAG,"拷贝完毕：" + uri);
-           // setAppCopystatue(true);
-//          startInstallApp();
-             return uri;
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(TAG, fileName + "not exists" + "or write err");
-             return null;
-        } catch (Exception e) {
-             return null;
-        }
+    public void goHome(Context context) {
+        Intent intent = new Intent(context, HomeActivityMain.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+        App.toMain = true ;
     }
-
 }

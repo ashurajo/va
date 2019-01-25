@@ -1,0 +1,24 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="io.virtualapp.addon.arm64">
+
+    <uses-permission android:name="${PACKAGE_NAME_32BIT}.permission.SAFE_ACCESS"/>
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@android:drawable/sym_def_app_icon"
+        android:label="64Bit Support"
+        android:supportsRtl="true"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <!-- release need remove or click start 32's activity -->
+        <activity-alias android:name="com.lody.virtual.MainActivity" android:targetActivity="com.lody.virtual.EmptyActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+    </application>
+</manifest>

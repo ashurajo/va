@@ -115,7 +115,9 @@ public final class SpecialComponentList {
         }
         String action = intent.getAction();
         if (action != null) {
-            return GMS_BLOCK_ACTION_LIST.contains(action);
+            if (GMS_BLOCK_ACTION_LIST.contains(action)) {
+                return true;
+            }
         }
         return false;
     }

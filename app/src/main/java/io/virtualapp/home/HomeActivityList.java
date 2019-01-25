@@ -68,7 +68,7 @@ public class HomeActivityList extends VActivity {
      * @param context
      * @param fileName 复制的文件名
      * @param path  保存的目录路径
-     * 针对7.0权限做处理
+     * 针对7.0权限做处理,zanshi
      * @return
      */
     public  void copyAssetsFile(Context context, String fileName, String path) {
@@ -135,14 +135,12 @@ public class HomeActivityList extends VActivity {
                     Log.e("liu1","response-"+response.body().getList().toString());
                 }
 
-
             }
 
             @Override
             public void onFailure(Call<apkDownloadInfo> call, Throwable t) {
 
             }
-
 
         });
     }

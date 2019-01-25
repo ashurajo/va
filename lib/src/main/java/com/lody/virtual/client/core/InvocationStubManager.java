@@ -121,7 +121,7 @@ public final class InvocationStubManager {
 
     }
 
-    private void injectInternal() {
+    private void injectInternal() throws Throwable {
         if (VirtualCore.get().isMainProcess()) {
             return;
         }

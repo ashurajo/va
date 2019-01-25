@@ -27,7 +27,7 @@ public class DisplayStub extends MethodInvocationProxy<MethodInvocationStub<IInt
 	}
 
 	@Override
-	public void inject() {
+	public void inject() throws Throwable {
 		Object dmg = DisplayManagerGlobal.getInstance.call();
 		DisplayManagerGlobal.mDm.set(dmg, getInvocationStub().getProxyInterface());
 	}

@@ -25,7 +25,7 @@ class MethodProxies {
         }
 
         @Override
-        public Object afterCall(Object who, Method method, Object[] args, Object result) {
+        public Object afterCall(Object who, Method method, Object[] args, Object result) throws Throwable {
             if (result != null) {
                 Reflect pwd = Reflect.on(result);
                 int uid = pwd.get("st_uid");
@@ -45,7 +45,7 @@ class MethodProxies {
         }
 
         @Override
-        public Object afterCall(Object who, Method method, Object[] args, Object result) {
+        public Object afterCall(Object who, Method method, Object[] args, Object result) throws Throwable {
             if (result != null) {
                 Reflect pwd = Reflect.on(result);
                 int uid = pwd.get("st_uid");
@@ -63,7 +63,7 @@ class MethodProxies {
             }
 
             @Override
-            public Object afterCall(Object who, Method method, Object[] args, Object result) {
+            public Object afterCall(Object who, Method method, Object[] args, Object result) throws Throwable {
                 if (result != null) {
                     Reflect pwd = Reflect.on(result);
                     int uid = pwd.get("pw_uid");
@@ -83,7 +83,7 @@ class MethodProxies {
         }
 
         @Override
-        public Object afterCall(Object who, Method method, Object[] args, Object result) {
+        public Object afterCall(Object who, Method method, Object[] args, Object result) throws Throwable {
             int uid = (int) result;
             return NativeEngine.onGetUid(uid);
         }
@@ -96,7 +96,7 @@ class MethodProxies {
             }
 
             @Override
-            public Object afterCall(Object who, Method method, Object[] args, Object result) {
+            public Object afterCall(Object who, Method method, Object[] args, Object result) throws Throwable {
                 if (result != null) {
                     Reflect ucred = Reflect.on(result);
                     int uid = ucred.get("uid");

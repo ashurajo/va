@@ -163,7 +163,10 @@ import static android.content.pm.ActivityInfo.LAUNCH_SINGLE_TOP;
         if (source == null) {
             return false;
         }
-        return source.info.launchMode != ActivityInfo.LAUNCH_SINGLE_INSTANCE;
+        if (source.info.launchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE) {
+            return false;
+        }
+        return true;
     }
 
     int startActivityLocked(int userId, Intent intent, ActivityInfo info, IBinder resultTo, Bundle options,

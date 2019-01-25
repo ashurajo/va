@@ -59,7 +59,7 @@ public class NotificationManagerStub extends MethodInvocationProxy<MethodInvocat
     }
 
     @Override
-    public void inject() {
+    public void inject() throws Throwable {
         NotificationManager.sService.set(getInvocationStub().getProxyInterface());
         Toast.sService.set(getInvocationStub().getProxyInterface());
     }

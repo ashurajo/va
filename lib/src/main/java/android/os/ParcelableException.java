@@ -24,7 +24,7 @@ public final class ParcelableException extends RuntimeException implements Parce
         super(t);
     }
 
-    public <T extends Throwable> void maybeRethrow(Class<T> clazz) {
+    public <T extends Throwable> void maybeRethrow(Class<T> clazz) throws T {
         throw new RuntimeException("Stub!");
     }
 

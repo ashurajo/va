@@ -2,7 +2,6 @@ package com.lody.virtual;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.util.Log;
 
 import com.lody.virtual.client.core.VirtualCore;
 import com.lody.virtual.helper.utils.VLog;
@@ -28,7 +27,7 @@ public class GmsSupport {
         GOOGLE_APP.add("com.google.android.play.games");
         GOOGLE_APP.add("com.google.android.wearable.app");
         GOOGLE_APP.add("com.google.android.wearable.app.cn");
-//        GOOGLE_APP.add("com.google.android.youtube");
+
         // GMS must install at first
         GOOGLE_SERVICE.add(GMS_PKG);
         GOOGLE_SERVICE.add(GSF_PKG);
@@ -42,7 +41,6 @@ public class GmsSupport {
         GOOGLE_SERVICE.add("com.google.android.partnersetup");
         GOOGLE_SERVICE.add("com.google.android.setupwizard");
         GOOGLE_SERVICE.add("com.google.android.syncadapters.calendar");
-
     }
 
     public static boolean isGoogleFrameworkInstalled() {
@@ -89,10 +87,8 @@ public class GmsSupport {
     }
 
     public static void installGApps(int userId) {
-        Log.e("liu2","====3");
         installPackages(GOOGLE_SERVICE, userId);
         installPackages(GOOGLE_APP, userId);
-
     }
 
     public static void remove(String packageName) {

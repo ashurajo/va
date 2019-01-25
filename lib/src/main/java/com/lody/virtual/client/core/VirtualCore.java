@@ -498,9 +498,10 @@ public final class VirtualCore {
      * Optimize the Dalvik-Cache for the specified package.
      *
      * @param pkg package name
+     * @throws IOException
      */
     @Deprecated
-    public void preOpt(String pkg) {
+    public void preOpt(String pkg) throws IOException {
 
     }
 

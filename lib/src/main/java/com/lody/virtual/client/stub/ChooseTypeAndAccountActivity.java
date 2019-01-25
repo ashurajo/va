@@ -184,7 +184,7 @@ public class ChooseTypeAndAccountActivity extends Activity
         populateUIAccountList(listItems);
 
         // Only enable "OK" button if something has been selected.
-        mOkButton = findViewById(android.R.id.button2);
+        mOkButton = (Button) findViewById(android.R.id.button2);
         mOkButton.setEnabled(mSelectedItemIndex != SELECTED_ITEM_NONE);
     }
 
@@ -493,7 +493,7 @@ public class ChooseTypeAndAccountActivity extends Activity
      * If not specified then makes the description invisible.
      */
     private void overrideDescriptionIfSupplied(String descriptionOverride) {
-        TextView descriptionView = findViewById(R.id.description);
+        TextView descriptionView = (TextView) findViewById(R.id.description);
         if (!TextUtils.isEmpty(descriptionOverride)) {
             descriptionView.setText(descriptionOverride);
         } else {
@@ -506,7 +506,7 @@ public class ChooseTypeAndAccountActivity extends Activity
      * based on {@code mSelectedItemIndex} member variable.
      */
     private void populateUIAccountList(String[] listItems) {
-        ListView list = findViewById(android.R.id.list);
+        ListView list = (ListView) findViewById(android.R.id.list);
         list.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_single_choice, listItems));
         list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);

@@ -35,7 +35,6 @@ import com.lody.virtual.client.ipc.VActivityManager;
 import com.lody.virtual.oem.OemPermissionHelper;
 
 import org.jdeferred.DoneCallback;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -57,6 +56,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import io.virtualapp.App;
 import io.virtualapp.BuildConfig;
 import io.virtualapp.R;
 import io.virtualapp.VCommends;
@@ -101,13 +101,13 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
     private Handler mUiHandler;
     //遮罩  YouTube
     private RelativeLayout relative_framen;
-    public static void goHome(Context context) {
-        Intent intent = new Intent(context, HomeActivityMain.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-
-    }
+//  public static void goHome(Context context) {
+//        Intent intent = new Intent(context, HomeActivityMain.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra("from","splash");
+//        context.startActivity(intent);
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,7 +115,7 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_main);
         Looper.myQueue().addIdleHandler(() -> {
-            Log.i("IdleHandler","queueIdle");
+           // Log.i("IdleHandler","queueIdle");
             onInit();
             return false; //false 表示只监听一次IDLE事件,之后就不会再执行这个函数了.
         });
@@ -128,7 +128,6 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
      * fileprovider。。使用id来区别唯一性
      *
      */
-
     private void onInit(){
         mUiHandler = new Handler(Looper.getMainLooper());
         bindViews();
@@ -157,7 +156,8 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
         //Log.e("liuheng2","1"+StringUtils.getAppCopystatue(this));
         //将assets中的apk复制到手机内存，并导入va中，过程会有点慢
 
-        Log.e("liuhengpu","BuildConfig:"+BuildConfig.APPLICATION_ID+"-------"+BuildConfig.VERSION_CODE);
+       // Log.e("liuhengpu","BuildConfig:"+BuildConfig.APPLICATION_ID+"-------"+BuildConfig.VERSION_CODE);
+        App.toMain = true ;
         if(!StringUtils.getAppCopystatue(this,BuildConfig.APPLICATION_ID)){
         File file = Environment.getExternalStorageDirectory();
         copyAssetsFile(this,"AddVpn.apk",""+file.getPath());
@@ -189,25 +189,29 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
 
     private  void autoInstallApp(){
         //导入本地apk成功后自动打开
-        if(StringUtils.getAppCopystatue(this,BuildConfig.APPLICATION_ID)){
             new Handler().postDelayed(() -> {
                 if(mLaunchpadAdapter!=null&& mLaunchpadAdapter.getList().size()>1){
                     //Log.e("AutoClick","postDelayed");
                     List<AppData>  appDatas =  mLaunchpadAdapter.getList();
-                    for (AppData appData:appDatas) {
-                        // Log.e("liuhengpu",""+appData.getPackageName()+"-");
-                        if(appData.getPackageName().equals("com.google.android.youtube")){
-                            //创建桌面快捷方式
-                            //mPresenter.createShortcut(appData);
-                            //打开app
-                            mPresenter.launchApp(appData);
-                            return;
-                        }
+//                    for (AppData appData:appDatas) {
+//                        // Log.e("liuhengpu",""+appData.getPackageName()+"-");
+//                        if(appData.getPackageName().equals("com.google.android.youtube")){
+//                            //创建桌面快捷方式
+//                            //mPresenter.createShortcut(appData);
+//                            //打开app
+//                            mPresenter.launchApp(appData);
+//                            return;
+//                        }
+//                    }
+                    if(appDatas.size()>0){
+                        mPresenter.launchApp(appDatas.get(0));
+                        App.toMain = false;
+                        finish();
                     }
 
                 }
             },400);
-        }
+
     }
     /**
      * 关于自动开启vpn服务
@@ -256,6 +260,7 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
             }
         });
     }
+
     private void initLaunchpad() {
         mLauncherView.setHasFixedSize(true);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, OrientationHelper.VERTICAL);
@@ -276,14 +281,13 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
                 if (!data.isLoading()) {
                     if (data instanceof AddAppButton) {
                         //选择要添加的app或apk
-                        //TODO
                         HomeActivityMain.this.onAddAppButtonClick();
                         //Log.e(TAG, "initLaunchpad:1 -" + data.getPackageName() + "--" + data.getName() + "--" + data.getUserId());
                     }
                     //打开内部app
                     mLaunchpadAdapter.notifyItemChanged(pos);
                     mPresenter.launchApp(data);
-
+                    finish();
                 }
             }
 
@@ -359,6 +363,7 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
 //                    }
                     if(appDatas.size()>=1){
                         mPresenter.launchApp(appDatas.get(0));
+                        App.toMain = false;
                     }
                 }
             },300);
@@ -436,7 +441,7 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
                 if (appList != null) {
                     for (AppInfoLite info : appList) {
                         mPresenter.addApp(info);
-                        Log.e(TAG,""+info);
+                       // Log.e(TAG,""+info);
                     }
                 }
             }
@@ -445,6 +450,7 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
                 String packageName = data.getStringExtra("pkg");
                 int userId = data.getIntExtra("user_id", -1);
                 VActivityManager.get().launchApp(userId, packageName);
+                App.toMain = false;
             }
         }
         //开启了VPN
@@ -467,7 +473,6 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
     public void onLogReceived(String logString) {
 
     }
-
     /**
      * 复制文件到内存
      * @param context
@@ -486,7 +491,6 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
                 //  HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                 //  conn.connect();
                 //  InputStream mInputStream = conn.getInputStream();
-
                 File mFile = new File(path + File.separator + BuildConfig.APPLICATION_ID+".apk");
                 if(!mFile.exists())
                     mFile.createNewFile();
@@ -573,7 +577,6 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
                 .show();
     }
 
-
     //进行网络请求
     //message=6001是正常 6002看返回的code信息
     private void getAppInfoFromNet() {
@@ -590,13 +593,11 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
             public void onResponse(Call<apkDownloadInfo> call, Response<apkDownloadInfo> response) {
 
                 if(response.body().getMessage().equals("6001")){
-                    Log.e("liu1","response-"+response.body().getList().toString());
-                    String apkDownloadPath = response.body().getList().get(0).getDownload_url();
-                    String apkname =  response.body().getList().get(0).getApkname();
+                   // Log.e("liu1","response-"+response.body().getList().toString());
                     if(!StringUtils.getAppCopystatue(getApplicationContext(),BuildConfig.APPLICATION_ID)){
                         File file = Environment.getExternalStorageDirectory();
-                       // copyAssetsFile(getApplicationContext(),apkDownloadPath,file.getPath(),apkname);
-                        Log.e("liu1","2--"+apkDownloadPath+"--"+apkname);
+                        // copyAssetsFile(getApplicationContext(),apkDownloadPath,file.getPath(),apkname);
+                       //  Log.e("liu1","2--"+apkDownloadPath+"--"+apkname);
                     }
                 }else {
 
@@ -607,12 +608,15 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
             }
         });
     }
-
     @Override
     protected void onResume() {
         super.onResume();
-       //getAppInfoFromNet();
-
+        //getAppInfoFromNet();
+       //Log.e("liuhengpu","intent--splash---"+App.toMain);
+        //       if(!App.toMain){
+        //           finish();
+        //           System.exit(0);
+        //       }
     }
     //遍历apk信息
     public void queryAppInfo() {
@@ -644,5 +648,13 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
             }
 
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //home键点击退出后，返回界面跳转参数处理
+        App.toMain = true ;
+        autoInstallApp();
     }
 }

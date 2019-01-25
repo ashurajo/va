@@ -1,0 +1,2 @@
+include ':lib', ':app'
+include ':lib64', ':app-arm64', ':test-64bit'

@@ -82,7 +82,7 @@ public class ChooseAccountTypeActivity extends Activity {
 
         setContentView(R.layout.choose_account_type);
         // Setup the list
-        ListView list = findViewById(android.R.id.list);
+        ListView list = (ListView) findViewById(android.R.id.list);
         // Use an existing ListAdapter that will map an array of strings to TextViews
         list.setAdapter(new AccountArrayAdapter(this,
                 android.R.layout.simple_list_item_1, mAuthenticatorInfosToDisplay));
@@ -161,8 +161,8 @@ public class ChooseAccountTypeActivity extends Activity {
             if (convertView == null) {
                 convertView = mLayoutInflater.inflate(R.layout.choose_account_row, null);
                 holder = new ViewHolder();
-                holder.text = convertView.findViewById(R.id.account_row_text);
-                holder.icon = convertView.findViewById(R.id.account_row_icon);
+                holder.text = (TextView) convertView.findViewById(R.id.account_row_text);
+                holder.icon = (ImageView) convertView.findViewById(R.id.account_row_icon);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();

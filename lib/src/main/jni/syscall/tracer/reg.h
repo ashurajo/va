@@ -1,7 +1,7 @@
 #ifndef Tracer_REG_H
 #define Tracer_REG_H
 
-#include "arch.h"
+#include "syscall/arch.h"
 #include "tracer.h"
 
 typedef enum {

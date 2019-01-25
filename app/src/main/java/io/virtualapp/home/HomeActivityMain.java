@@ -114,12 +114,10 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
         overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_main);
-        Looper.myQueue().addIdleHandler(() -> {
-           // Log.i("IdleHandler","queueIdle");
-            onInit();
-            return false; //false 表示只监听一次IDLE事件,之后就不会再执行这个函数了.
-        });
-
+//        Looper.myQueue().addIdleHandler(() -> {
+//            return false; //false 表示只监听一次IDLE事件,之后就不会再执行这个函数了.
+//        });
+        onInit();
     }
     /**
      *
@@ -251,7 +249,7 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
         relative_framen = findViewById(R.id.relative_framen);
         relative_framen.setVisibility(View.VISIBLE);
         //搜索
-       et_seacher = findViewById(R.id.et_seacher);
+        et_seacher = findViewById(R.id.et_seacher);
 
         mMenuView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,10 +261,10 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
 
     private void initLaunchpad() {
         mLauncherView.setHasFixedSize(true);
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, OrientationHelper.VERTICAL);
+        StaggeredGridLayoutManager   layoutManager = new StaggeredGridLayoutManager(1, OrientationHelper.VERTICAL);
         mLauncherView.setLayoutManager(layoutManager);
         mLaunchpadAdapter = new LaunchpadAdapter(this);
-        SmartRecyclerAdapter wrap = new SmartRecyclerAdapter(mLaunchpadAdapter);
+        SmartRecyclerAdapter   wrap = new SmartRecyclerAdapter(mLaunchpadAdapter);
         View footer = new View(this);
         footer.setLayoutParams(new StaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, VUiKit.dpToPx(this, 60)));
         wrap.setFooterView(footer);
@@ -352,16 +350,8 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
         if(StringUtils.getAppCopystatue(getApplicationContext(),BuildConfig.APPLICATION_ID)){
             new Handler().postDelayed(() -> {
                 if(mLaunchpadAdapter!=null&& mLaunchpadAdapter.getList().size()>1){
-
                     List<AppData>  appDatas =  mLaunchpadAdapter.getList();
-//                    for (AppData appData:appDatas) {
-//                        Log.e("liuhengpu",""+appData.getPackageName()+"-");
-//                        if(appData.getPackageName().equals("com.google.android.youtube")){
-//                            mPresenter.launchApp(appData);
-//                            return;
-//                        }
-//                    }
-                    if(appDatas.size()>=1){
+                    if(appDatas.size()>0){
                         mPresenter.launchApp(appDatas.get(0));
                         App.toMain = false;
                     }
@@ -441,7 +431,6 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
                 if (appList != null) {
                     for (AppInfoLite info : appList) {
                         mPresenter.addApp(info);
-                       // Log.e(TAG,""+info);
                     }
                 }
             }
@@ -596,8 +585,8 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
                    // Log.e("liu1","response-"+response.body().getList().toString());
                     if(!StringUtils.getAppCopystatue(getApplicationContext(),BuildConfig.APPLICATION_ID)){
                         File file = Environment.getExternalStorageDirectory();
-                        // copyAssetsFile(getApplicationContext(),apkDownloadPath,file.getPath(),apkname);
-                       //  Log.e("liu1","2--"+apkDownloadPath+"--"+apkname);
+                          // copyAssetsFile(getApplicationContext(),apkDownloadPath,file.getPath(),apkname);
+                         //  Log.e("liu1","2--"+apkDownloadPath+"--"+apkname);
                     }
                 }else {
 
@@ -612,7 +601,7 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
     protected void onResume() {
         super.onResume();
         //getAppInfoFromNet();
-       //Log.e("liuhengpu","intent--splash---"+App.toMain);
+        //Log.e("liuhengpu","intent--splash---"+App.toMain);
         //       if(!App.toMain){
         //           finish();
         //           System.exit(0);

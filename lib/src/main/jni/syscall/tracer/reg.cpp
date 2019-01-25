@@ -11,7 +11,7 @@
 #include <sys/uio.h>    /* struct iovec, */
 #include <stdbool.h>
 
-#include "arch.h"
+#include "syscall/arch.h"
 
 #if defined(ARCH_ARM64)
 #include <linux/elf.h>  /* NT_PRSTATUS */

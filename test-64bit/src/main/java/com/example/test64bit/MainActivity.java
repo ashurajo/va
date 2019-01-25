@@ -55,5 +55,15 @@ public class MainActivity extends Activity {
         });
     }
 
+//
+    private  void setProxy(){
 
+        String s  = "com .android.vending";
+        String s2 = "com.android.google.youtube";
+        String s3 = "";
+        String s4 = "";
+        StringBuffer  sb = new StringBuffer();
+        sb.append("");
+        sb.append("");
+    }
 }

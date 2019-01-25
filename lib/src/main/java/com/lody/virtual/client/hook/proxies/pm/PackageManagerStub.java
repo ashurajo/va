@@ -43,7 +43,7 @@ public final class PackageManagerStub extends MethodInvocationProxy<MethodInvoca
     }
 
     @Override
-    public void inject() throws Throwable {
+    public void inject() {
         final IInterface hookedPM = getInvocationStub().getProxyInterface();
         ActivityThread.sPackageManager.set(hookedPM);
         BinderInvocationStub pmHookBinder = new BinderInvocationStub(getInvocationStub().getBaseInterface());

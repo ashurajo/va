@@ -81,9 +81,7 @@ public class VNotificationManagerService extends INotificationManager.Stub {
     public void setNotificationsEnabledForPackage(String packageName, boolean enable, int userId) {
         String key = packageName + ":" + userId;
         if (enable) {
-            if (mDisables.contains(key)) {
-                mDisables.remove(key);
-            }
+            mDisables.remove(key);
         } else {
             if (!mDisables.contains(key)) {
                 mDisables.add(key);

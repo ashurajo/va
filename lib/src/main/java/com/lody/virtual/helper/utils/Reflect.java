@@ -510,7 +510,7 @@ public class Reflect {
         final boolean isMap = (object instanceof Map);
         final InvocationHandler handler = new InvocationHandler() {
             
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            public Object invoke(Object proxy, Method method, Object[] args) {
                 String name = method.getName();
                 try {
                     return on(object).call(name, args).get();

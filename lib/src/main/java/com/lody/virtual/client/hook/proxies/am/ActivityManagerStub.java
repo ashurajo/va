@@ -62,7 +62,7 @@ public class ActivityManagerStub extends MethodInvocationProxy<MethodInvocationS
         if (VirtualCore.get().isVAppProcess()) {
             addMethodProxy(new StaticMethodProxy("setRequestedOrientation") {
                 @Override
-                public Object call(Object who, Method method, Object... args) throws Throwable {
+                public Object call(Object who, Method method, Object... args) {
                     try {
                         return super.call(who, method, args);
                     } catch (Throwable e) {
@@ -95,7 +95,7 @@ public class ActivityManagerStub extends MethodInvocationProxy<MethodInvocationS
             });
             addMethodProxy(new StaticMethodProxy("checkUriPermission") {
                 @Override
-                public Object call(Object who, Method method, Object... args) throws Throwable {
+                public Object call(Object who, Method method, Object... args) {
                     return PackageManager.PERMISSION_GRANTED;
                 }
             });

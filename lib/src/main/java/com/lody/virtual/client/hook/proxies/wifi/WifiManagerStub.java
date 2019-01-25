@@ -156,7 +156,7 @@ public class WifiManagerStub extends BinderInvocationProxy {
         addMethodProxy(new StaticMethodProxy("getWifiApConfiguration") {
 
             @Override
-            public Object call(Object who, Method method, Object... args) throws Throwable {
+            public Object call(Object who, Method method, Object... args) {
                 List<WifiConfiguration> configurations = ((WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE)).getConfiguredNetworks();
                 if (!configurations.isEmpty()) {
                     return configurations.get(0);

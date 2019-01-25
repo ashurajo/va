@@ -136,10 +136,7 @@ public final class VUserHandle implements Parcelable {
     }
 
     public static boolean accept(int userId) {
-        if (userId == USER_ALL || userId == myUserId()) {
-            return true;
-        }
-        return false;
+        return userId == USER_ALL || userId == myUserId();
     }
 
     /**

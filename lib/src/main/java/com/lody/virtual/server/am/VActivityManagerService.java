@@ -23,6 +23,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Process;
 import android.os.RemoteException;
+import android.util.Log;
 
 import com.lody.virtual.client.IVClient;
 import com.lody.virtual.client.core.VirtualCore;
@@ -107,6 +108,7 @@ public class VActivityManagerService extends IActivityManager.Stub {
             ActivityInfo[] infos = new ActivityInfo[intents.length];
             for (int i = 0; i < intents.length; i++) {
                 ActivityInfo ai = VirtualCore.get().resolveActivityInfo(intents[i], userId);
+                Log.e("RedNowService","ActivityInfo"+ai.targetActivity);
                 if (ai == null) {
                     return ActivityManagerCompat.START_INTENT_NOT_RESOLVED;
                 }

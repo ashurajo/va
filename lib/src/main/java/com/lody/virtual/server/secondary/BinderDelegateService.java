@@ -52,7 +52,7 @@ public class BinderDelegateService extends IBinderDelegateService.Stub {
     }
 
     @Override
-    public IBinder getService() throws RemoteException {
+    public IBinder getService() {
         return service;
     }
 }

@@ -97,13 +97,12 @@ public class VPackageInstallerService extends IPackageInstaller.Stub {
     public int createSession(SessionParams params, String installerPackageName, int userId) {
         try {
             return createSessionInternal(params, installerPackageName, userId, VBinder.getCallingUid());
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new IllegalStateException(e);
         }
     }
 
-    private int createSessionInternal(SessionParams params, String installerPackageName, int userId,int callingUid)
-            throws IOException {
+    private int createSessionInternal(SessionParams params, String installerPackageName, int userId,int callingUid) {
         final int sessionId;
         final PackageInstallerSession session;
         synchronized (mSessions) {
@@ -159,7 +158,7 @@ public class VPackageInstallerService extends IPackageInstaller.Stub {
             }
             try {
                 session.abandon();
-            } catch (RemoteException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

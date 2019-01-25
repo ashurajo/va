@@ -26,7 +26,7 @@ public class InputMethodManagerStub extends BinderInvocationProxy {
 	}
 
 	@Override
-	public void inject() throws Throwable {
+	public void inject() {
 		Object inputMethodManager = getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 		InputMethodManager.mService.set(inputMethodManager, getInvocationStub().getProxyInterface());
 		getInvocationStub().replaceService(Context.INPUT_METHOD_SERVICE);

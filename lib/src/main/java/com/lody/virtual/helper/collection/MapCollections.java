@@ -60,9 +60,9 @@ abstract class MapCollections<K, V> {
             }
         }
         return oldSize != map.size();
-    };
+    }
 
-        public static <T> boolean equalsSetHelper(Set<T> set, Object object) {
+    public static <T> boolean equalsSetHelper(Set<T> set, Object object) {
         if (set == object) {
             return true;
         }
@@ -78,16 +78,16 @@ abstract class MapCollections<K, V> {
             }
         }
         return false;
-    };
+    }
 
-        public Object[] toArrayHelper(int offset) {
+    public Object[] toArrayHelper(int offset) {
         final int N = colGetSize();
         Object[] result = new Object[N];
         for (int i=0; i<N; i++) {
             result[i] = colGetEntry(i, offset);
         }
         return result;
-    };
+    }
 
     public <T> T[] toArrayHelper(T[] array, int offset) {
         final int N  = colGetSize();

@@ -36,7 +36,7 @@ public class MemoryScanEngine {
         return matches;
     }
 
-    public void search(MemoryValue value) throws IOException {
+    public void search(MemoryValue value) {
         matches = new LinkedList<>();
         byte[] bytes = new byte[PAGE];
         byte[] valueBytes = value.toBytes();

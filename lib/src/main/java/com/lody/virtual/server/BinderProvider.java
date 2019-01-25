@@ -133,7 +133,7 @@ public final class BinderProvider extends ContentProvider {
 
     private class ServiceFetcher extends IServiceFetcher.Stub {
         @Override
-        public IBinder getService(String name) throws RemoteException {
+        public IBinder getService(String name) {
             if (name != null) {
                 return ServiceCache.getService(name);
             }
@@ -141,14 +141,14 @@ public final class BinderProvider extends ContentProvider {
         }
 
         @Override
-        public void addService(String name, IBinder service) throws RemoteException {
+        public void addService(String name, IBinder service) {
             if (name != null && service != null) {
                 ServiceCache.addService(name, service);
             }
         }
 
         @Override
-        public void removeService(String name) throws RemoteException {
+        public void removeService(String name) {
             if (name != null) {
                 ServiceCache.removeService(name);
             }

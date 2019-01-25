@@ -23,7 +23,7 @@ import mirror.android.content.res.CompatibilityInfo;
 
 public class IApplicationThreadCompat {
 
-    public static void scheduleCreateService(IInterface appThread, IBinder token, ServiceInfo info) throws RemoteException {
+    public static void scheduleCreateService(IInterface appThread, IBinder token, ServiceInfo info) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             IApplicationThreadKitkat.scheduleCreateService.call(appThread, token, info, CompatibilityInfo.DEFAULT_COMPATIBILITY_INFO.get(),
@@ -36,7 +36,7 @@ public class IApplicationThreadCompat {
 
     }
 
-    public static void scheduleBindService(IInterface appThread, IBinder token, Intent intent, boolean rebind) throws RemoteException {
+    public static void scheduleBindService(IInterface appThread, IBinder token, Intent intent, boolean rebind) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             IApplicationThreadKitkat.scheduleBindService.call(appThread, token, intent, rebind, 0);
         } else {
@@ -44,12 +44,12 @@ public class IApplicationThreadCompat {
         }
     }
 
-    public static void scheduleUnbindService(IInterface appThread, IBinder token, Intent intent) throws RemoteException {
+    public static void scheduleUnbindService(IInterface appThread, IBinder token, Intent intent) {
         IApplicationThread.scheduleUnbindService.call(appThread, token, intent);
     }
 
     public static void scheduleServiceArgs(IInterface appThread, IBinder token,
-                                           int startId, Intent args) throws RemoteException {
+                                           int startId, Intent args) {
 
         if (BuildCompat.isOreo()) {
             List<Object> list = new ArrayList<>(1);
@@ -64,7 +64,7 @@ public class IApplicationThreadCompat {
     }
 
 
-    public static void scheduleStopService(IInterface appThread, IBinder token) throws RemoteException {
+    public static void scheduleStopService(IInterface appThread, IBinder token) {
         IApplicationThread.scheduleStopService.call(appThread, token);
     }
 

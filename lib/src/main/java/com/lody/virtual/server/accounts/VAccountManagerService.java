@@ -394,7 +394,7 @@ public class VAccountManagerService extends IAccountManager.Stub {
         new Session(response, userId, info, false, true, account.name) {
 
             @Override
-            public void run() throws RemoteException {
+            public void run() {
                 try {
                     mAuthenticator.hasFeatures(this, account, features);
                 } catch (RemoteException e) {
@@ -403,7 +403,7 @@ public class VAccountManagerService extends IAccountManager.Stub {
             }
 
             @Override
-            public void onResult(Bundle result) throws RemoteException {
+            public void onResult(Bundle result) {
                 IAccountManagerResponse response = getResponseAndClose();
                 if (response != null) {
                     try {
@@ -1215,32 +1215,32 @@ public class VAccountManagerService extends IAccountManager.Stub {
     }
 
     @Override
-    public void startAddAccountSession(IAccountManagerResponse response, String accountType, String authTokenType, String[] requiredFeatures, boolean expectActivityLaunch, Bundle options) throws RemoteException {
+    public void startAddAccountSession(IAccountManagerResponse response, String accountType, String authTokenType, String[] requiredFeatures, boolean expectActivityLaunch, Bundle options) {
 
     }
 
     @Override
-    public void startUpdateCredentialsSession(IAccountManagerResponse response, Account account, String authTokenType, boolean expectActivityLaunch, Bundle options) throws RemoteException {
+    public void startUpdateCredentialsSession(IAccountManagerResponse response, Account account, String authTokenType, boolean expectActivityLaunch, Bundle options) {
 
     }
 
     @Override
-    public void registerAccountListener(String[] accountTypes, String opPackageName) throws RemoteException {
+    public void registerAccountListener(String[] accountTypes, String opPackageName) {
 
     }
 
     @Override
-    public void unregisterAccountListener(String[] accountTypes, String opPackageName) throws RemoteException {
+    public void unregisterAccountListener(String[] accountTypes, String opPackageName) {
 
     }
 
     @Override
-    public void finishSessionAsUser(IAccountManagerResponse response, Bundle sessionBundle, boolean expectActivityLaunch, Bundle appInfo, int userId) throws RemoteException {
+    public void finishSessionAsUser(IAccountManagerResponse response, Bundle sessionBundle, boolean expectActivityLaunch, Bundle appInfo, int userId) {
 
     }
 
     @Override
-    public void isCredentialsUpdateSuggested(IAccountManagerResponse response, Account account, String statusToken) throws RemoteException {
+    public void isCredentialsUpdateSuggested(IAccountManagerResponse response, Account account, String statusToken) {
 
     }
 
@@ -1569,7 +1569,7 @@ public class VAccountManagerService extends IAccountManager.Stub {
         }
 
         @Override
-        public void run() throws RemoteException {
+        public void run() {
             mAccountsOfType = getAccounts(mUserId, mAuthenticatorInfo.desc.type);
             // check whether each account matches the requested features
             mAccountsWithFeatures = new ArrayList<Account>(mAccountsOfType.length);

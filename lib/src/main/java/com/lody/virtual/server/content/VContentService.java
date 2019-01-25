@@ -710,10 +710,7 @@ public final class VContentService extends IContentService.Stub {
                 }
             }
 
-            if (mChildren.size() == 0 && mObservers.size() == 0) {
-                return true;
-            }
-            return false;
+            return mChildren.size() == 0 && mObservers.size() == 0;
         }
 
         private void collectMyObserversLocked(boolean leaf, IContentObserver observer,

@@ -414,9 +414,9 @@ public class ResolverActivity extends Activity implements AdapterView.OnItemClic
         public ImageView icon;
 
         public ViewHolder(View view) {
-            text = (TextView) view.findViewById(R.id.text1);
-            text2 = (TextView) view.findViewById(R.id.text2);
-            icon = (ImageView) view.findViewById(R.id.icon);
+            text = view.findViewById(R.id.text1);
+            text2 = view.findViewById(R.id.text2);
+            icon = view.findViewById(R.id.icon);
         }
     }
 

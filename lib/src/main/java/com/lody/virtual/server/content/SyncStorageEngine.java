@@ -355,8 +355,8 @@ public class SyncStorageEngine extends Handler {
          * @param authority
          * @param extras
          */
-        public void onSyncRequest(Account account, int userId, int reason, String authority,
-                                  Bundle extras);
+        void onSyncRequest(Account account, int userId, int reason, String authority,
+                           Bundle extras);
     }
 
     // Primary list of all syncable authorities.  Also our global lock.

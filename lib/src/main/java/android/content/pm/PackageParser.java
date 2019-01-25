@@ -43,8 +43,7 @@ public class PackageParser {
             return this;
         }
 
-        public SigningDetails build()
-                throws CertificateException {
+        public SigningDetails build() {
             return new SigningDetails();
         }
 

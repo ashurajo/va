@@ -74,9 +74,7 @@ public class ComponentUtils {
             if (!ObjectsCompat.equals(a.getComponent(), b.getComponent())) {
                 return false;
             }
-            if (!ObjectsCompat.equals(a.getCategories(), b.getCategories())) {
-                return false;
-            }
+            return ObjectsCompat.equals(a.getCategories(), b.getCategories());
         }
         return true;
     }

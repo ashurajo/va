@@ -40,7 +40,7 @@ public abstract class AmsTask extends FutureTask<Bundle> implements AccountManag
     public AmsTask(Activity activity, Handler handler, AccountManagerCallback<Bundle> callback) {
         super(new Callable<Bundle>() {
             @Override
-            public Bundle call() throws Exception {
+            public Bundle call() {
                 throw new IllegalStateException("this should never be called");
             }
         });

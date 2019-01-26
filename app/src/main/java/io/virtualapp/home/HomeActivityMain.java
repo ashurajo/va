@@ -252,7 +252,7 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
         mDeleteAppTextView = findViewById(R.id.delete_app_text);
         //遮罩
         relative_framen = findViewById(R.id.relative_framen);
-        relative_framen.setVisibility(View.VISIBLE);
+        relative_framen.setVisibility(View.GONE);
         //搜索
         et_seacher = findViewById(R.id.et_seacher);
 

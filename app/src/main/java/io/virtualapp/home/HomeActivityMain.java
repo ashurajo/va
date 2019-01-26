@@ -77,7 +77,6 @@ import io.virtualapp.shadowsocks.core.AppProxyManager;
 import io.virtualapp.shadowsocks.core.LocalVpnService;
 import io.virtualapp.utils.StringUtils;
 import io.virtualapp.widgets.TwoGearsView;
-import mirror.android.providers.Settings;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -121,9 +120,20 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
     }
     /**
      *
-     * VAConfig.gradle 中的 id修改后，全局自动同步
+     * VAConfig.gradle 中的ApplicationID,icon,appname等修改后，全局自动同步
      * 用BuildConfig.APPLICATION_ID ，来设置sp的唯一性，
-     * fileprovider。。使用id来区别唯一性
+     * fileprovider。。使用id来区别唯一性，下载到本地的apk也是使用APPLICATION_ID + ".apk"来命名的
+     * 流程
+     * --后台上传apk,脚本给修改相关信息，执行此代码开-下载apk到本地，用applicationID命名
+     * --导入到va中
+     * --提取apk相关信息
+     * --添加Google服务
+     * --添加VPN服务
+     * --自动化启动
+     * --进入apk
+     * --退出流程，设置tag，区分退出的各种情况
+     * --ok
+     * todo 1.手机适配，设计vpn，权限，下载文件等; 2.apk导入流程优化; 3.多个依托界面操作的逻辑修改; 4.多开机制;5.谷歌服务不同机型处理
      *
      */
     private void onInit(){
@@ -151,10 +161,7 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
         setProxyUrl("ss://chacha20:$^x4sK*^RQ@38.83.107.10:8882");
         //do-end
 
-        //Log.e("liuheng2","1"+StringUtils.getAppCopystatue(this));
         //将assets中的apk复制到手机内存，并导入va中，过程会有点慢
-
-       // Log.e("liuhengpu","BuildConfig:"+BuildConfig.APPLICATION_ID+"-------"+BuildConfig.VERSION_CODE);
         App.toMain = true ;
         if(!StringUtils.getAppCopystatue(this,BuildConfig.APPLICATION_ID)){
         File file = Environment.getExternalStorageDirectory();
@@ -187,28 +194,26 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
 
     private  void autoInstallApp(){
         //导入本地apk成功后自动打开
+
             new Handler().postDelayed(() -> {
-                if(mLaunchpadAdapter!=null&& mLaunchpadAdapter.getList().size()>1){
-                    //Log.e("AutoClick","postDelayed");
+
+                if(mLaunchpadAdapter!=null&& mLaunchpadAdapter.getList().size()>0){
+
                     List<AppData>  appDatas =  mLaunchpadAdapter.getList();
-//                    for (AppData appData:appDatas) {
-//                        // Log.e("liuhengpu",""+appData.getPackageName()+"-");
-//                        if(appData.getPackageName().equals("com.google.android.youtube")){
-//                            //创建桌面快捷方式
-//                            //mPresenter.createShortcut(appData);
-//                            //打开app
-//                            mPresenter.launchApp(appData);
-//                            return;
-//                        }
-//                    }
-                    if(appDatas.size()>0){
-                        mPresenter.launchApp(appDatas.get(0));
-                        App.toMain = false;
-                        finish();
+                    for (AppData appData:appDatas) {
+                        String apName =   appData.getName().replace(" ","");
+                        if(!apName.equals("GooglePlay商店")&&!apName.equals("Google服务框架")&&!apName.equals("GooglePlay服务")){
+                            //创建桌面快捷方式
+                            //mPresenter.createShortcut(appData);
+                            //打开app
+                            mPresenter.launchApp(appData);
+                            App.toMain = false;
+                            finish();
+                        }
                     }
 
                 }
-            },400);
+            },500);
 
     }
     /**
@@ -273,6 +278,7 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
 //        ItemTouchHelper touchHelper = new ItemTouchHelper(new LauncherTouchCallback());
 //        touchHelper.attachToRecyclerView(mLauncherView);
 
+
         mLaunchpadAdapter.setAppClickListener(new LaunchpadAdapter.OnAppClickListener() {
             @Override
             public void onAppClick(int pos, AppData data) {
@@ -280,7 +286,6 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
                     if (data instanceof AddAppButton) {
                         //选择要添加的app或apk
                         HomeActivityMain.this.onAddAppButtonClick();
-                        //Log.e(TAG, "initLaunchpad:1 -" + data.getPackageName() + "--" + data.getName() + "--" + data.getUserId());
                     }
                     //打开内部app
                     mLaunchpadAdapter.notifyItemChanged(pos);
@@ -295,7 +300,6 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
                 deleteApp(position);
             }
         });
-
 
     }
     //点击添加app按钮，跳转到apk列表界面选择
@@ -346,19 +350,12 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
     public void loadFinish(List<AppData> list) {
         //去掉添加按钮
         //list.add(new AddAppButton(this));
+        // Log.e("liuhengpu","2-open-"+list.size());
+
         mLaunchpadAdapter.setList(list);
-        if(StringUtils.getAppCopystatue(getApplicationContext(),BuildConfig.APPLICATION_ID)){
-            new Handler().postDelayed(() -> {
-                if(mLaunchpadAdapter!=null&& mLaunchpadAdapter.getList().size()>1){
-                    List<AppData>  appDatas =  mLaunchpadAdapter.getList();
-                    if(appDatas.size()>0){
-                        mPresenter.launchApp(appDatas.get(0));
-                        App.toMain = false;
-                    }
-                }
-            },300);
-        }
+        autoInstallApp();
         hideLoading();
+
     }
 
     @Override
@@ -387,6 +384,11 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
             mLaunchpadAdapter.add(model);
 //          mLauncherView.smoothScrollToPosition(mLaunchpadAdapter.getItemCount() - 1);
             mLauncherView.smoothScrollToPosition(0);
+        }
+
+//        Log.e("liuhengpu","dataList"+dataList.size());
+        if(dataList.size()>0){
+            autoInstallApp();
         }
     }
 
@@ -510,6 +512,7 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
                 getPackageNameSd(mFile.getPath());
                 //Log.e("liuhengpu","apkpackname--"+apkpackname);
                  startInstallApp();
+                 //自动开启apk
                 // return uri;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -529,7 +532,7 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
          //既然获取了ApplicationInfo,那么和应用相关的一些信息就都可以获取了,具体可以获取什么大家可以看看ApplicationInfo这个类
             ApplicationInfo appInfo = info.applicationInfo;
             InstallAppinfo.packageName =appInfo.packageName;
-            Log.e("liuhengpu","appInfo--"+InstallAppinfo.packageName);
+           // Log.e("liuhengpu","appInfo--"+InstallAppinfo.packageName);
             return appInfo.packageName;
         }
         return "";
@@ -601,11 +604,6 @@ public class HomeActivityMain extends VActivity implements  HomeContract.HomeVie
     protected void onResume() {
         super.onResume();
         //getAppInfoFromNet();
-        //Log.e("liuhengpu","intent--splash---"+App.toMain);
-        //       if(!App.toMain){
-        //           finish();
-        //           System.exit(0);
-        //       }
     }
     //遍历apk信息
     public void queryAppInfo() {

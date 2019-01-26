@@ -103,7 +103,6 @@ public class SplashActivity extends VActivity {
                 }).done((res) -> {
                     goHome(this);
                     finish();
-
                     overridePendingTransition(0, 0);
                 });
             }else {
